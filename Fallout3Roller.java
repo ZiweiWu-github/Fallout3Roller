@@ -22,6 +22,7 @@ public class Fallout3Roller {
 		JPanel primaryStatsPanel = new JPanel();
 		primaryStatsPanel.setLayout(new GridLayout(1, 0));
 		JTextArea primaryStatsTextArea = new JTextArea();
+		primaryStatsTextArea.setEditable(false);
 		primaryStatsPanel.add(primaryStatsTextArea);
 		primaryStatsPanel.setPreferredSize(new Dimension(210, 710));
 
@@ -29,6 +30,7 @@ public class Fallout3Roller {
 		JPanel showDerivedStatsPanel = new JPanel();
 		showDerivedStatsPanel.setLayout(new GridLayout(1, 0));
 		JTextArea showDerivedStatsTextArea = new JTextArea();
+		showDerivedStatsTextArea.setEditable(false);
 		showDerivedStatsPanel.add(showDerivedStatsTextArea);
 
 		// 2nd one contains a giant reroll button
