@@ -11,7 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 public class Fallout3Roller {
-	public static final int STARTING_POINTS = 40;
+	public static final int STARTING_POINTS = 40, NUMBER_OF_STATS = 5;
+	
 	private static Stats[] stats;
 
 	public static void main(String[] args) {
@@ -41,7 +42,7 @@ public class Fallout3Roller {
 		primaryStatsRollButton.setText("<html>Reroll<br /><br />Stats</html>");
 		primaryStatsRollButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				stats = StatsFactory.statsCreator(5);
+				stats = StatsFactory.statsCreator(NUMBER_OF_STATS);
 				String s = "";
 				for (int i = 0; i < stats.length; i++) {
 					s += "Stats for roll " + (i + 1) + ":\n";
@@ -60,8 +61,8 @@ public class Fallout3Roller {
 
 		// 3rd one has buttons to show derived stats
 		JPanel calcDerivedStatsPanel = new JPanel();
-		calcDerivedStatsPanel.setLayout(new GridLayout(stats.length, 0));
-		for (int i = 0; i < stats.length; i++) {
+		calcDerivedStatsPanel.setLayout(new GridLayout(NUMBER_OF_STATS, 0));
+		for (int i = 0; i < NUMBER_OF_STATS; i++) {
 			JButton b = new JButton("See Stats for roll " + (i + 1));
 			final int temp = i;
 			b.addActionListener(new ActionListener() {
@@ -86,6 +87,12 @@ public class Fallout3Roller {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
+	/**
+	 * Gives a random number between min to max inclusive
+	 * @param min: int
+	 * @param max: int that must be bigger than min
+	 * @return: a random number between min and max inclusive
+	 */
 	public static int getRandomNumberInRange(int min, int max) {
 
 		if (min >= max) {
@@ -98,6 +105,11 @@ public class Fallout3Roller {
 }
 
 class StatsFactory {
+	/**
+	 * Creates an array of Stats of size amount
+	 * @param amount: an int of 1 or more
+	 * @return: an array of Stats
+	 */
 	public static Stats[] statsCreator(int amount) {
 		Stats[] stats = new Stats[amount];
 		for (int i = 0; i < amount; i++) {
@@ -113,13 +125,26 @@ class Stats {
 	// 0 =str, 1 =per, 2 = end, 3 = cha, 4 =intel, 5= agi, 6 = luck
 	private String[] skills;
 
+	/**
+	 * Constructor for the Stats class
+	 * @param str: int from 1 to 10
+	 * @param per: int from 1 to 10
+	 * @param end: int from 1 to 10
+	 * @param cha: int from 1 to 10
+	 * @param intel: int from 1 to 10
+	 * @param agi: int from 1 to 10
+	 * @param luck: int from 1 to 10
+	 */
 	public Stats(int str, int per, int end, int cha, int intel, int agi, int luck) {
 		this.statArr = new int[] { str, per, end, cha, intel, agi, luck };
 		this.reBalance();
 		this.setSkillArray();
 		this.setTagged();
 	}
-
+	
+	/**
+	 * Rebalances the stats by putting them to 40 points total
+	 */
 	private void reBalance() {
 		while (this.getTotalPoints() < Fallout3Roller.STARTING_POINTS) {
 			int re = Fallout3Roller.getRandomNumberInRange(0, 6);
@@ -137,15 +162,21 @@ class Stats {
 		}
 	}
 
+	/**
+	 * Return the total amount of points
+	 * @return: the total amount of points
+	 */
 	private int getTotalPoints() {
 		int i = 0;
 		for (int f : this.statArr) {
 			i += f;
 		}
 		return i;
-
 	}
 
+	/**
+	 * initializes some of the arrays
+	 */
 	private void setSkillArray() {
 		int str = statArr[0], per = statArr[1], end = statArr[2], cha = statArr[3],
 				intel = statArr[4], agi = statArr[5], luck = statArr[6];
@@ -164,6 +195,9 @@ class Stats {
 				"Unarmed: " };
 	}
 
+	/**
+	 * Set which skills are tagged (+15 points)
+	 */
 	private void setTagged() {
 		tagged1 = Fallout3Roller.getRandomNumberInRange(0, skillArr.length - 1);
 		tagged2 = Fallout3Roller.getRandomNumberInRange(0, skillArr.length - 1);
@@ -178,6 +212,10 @@ class Stats {
 		this.skillArr[tagged3] += 15;
 	}
 
+	/**
+	 * Returns a string of the primary stats
+	 * @return String containing the details of the primary stats
+	 */
 	public String getString() {
 		// 0 =str, 1 =per, 2 = end, 3 = cha, 4 =intel, 5= agi, 6 = luck
 		String s = "";
@@ -191,6 +229,10 @@ class Stats {
 		return s;
 	}
 
+	/**
+	 * Returns a string containing the derived stats and skill stats
+	 * @return: String containing the derived stats and skill stats
+	 */
 	public String calcDerivedStats() {
 		int str = statArr[0], end = statArr[2], intel = statArr[4],
 				agi = statArr[5], luck = statArr[6];
