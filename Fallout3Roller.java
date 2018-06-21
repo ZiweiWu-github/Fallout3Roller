@@ -1,4 +1,3 @@
-//Written by Ziwei Wu
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -10,6 +9,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+/**
+ * 
+ * @author Ziwei Wu
+ *
+ */
 public class Fallout3Roller {
 	public static final int STARTING_POINTS = 40, NUMBER_OF_STATS = 5;
 	
